@@ -19,3 +19,7 @@ Content-Type: application/json
   "title": "Test",
   "allDay": false
 }
+
+###
+
+DELETE http://localhost:3000/event/96be30f6-bcd1-411a-b641-4226c1702020
