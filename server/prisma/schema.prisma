@@ -13,6 +13,7 @@ datasource db {
 model Event {
   id String @id @default(uuid())
   title String @db.VarChar(255)
+  allDay Boolean
   startDate DateTime
   endDate DateTime
   createdAt DateTime @default(now())
