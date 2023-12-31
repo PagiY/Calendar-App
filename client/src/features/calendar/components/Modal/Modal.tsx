@@ -15,6 +15,7 @@ import { useEventDateStore, EventState } from '../../../../hooks/useEventDateSto
 type ModalProps = {
   show: boolean,
   handleClose: () => void,
+  handleSubmit: (data: any) => void,
 };
 
 interface EventInputs extends EventState {
@@ -53,6 +54,7 @@ export const Modal = ({
 
   const onSubmit = handleSubmit((data) => {
     console.log(data);
+    handleClose();
   });
 
   return (
@@ -71,8 +73,8 @@ export const Modal = ({
                 size="lg"
                 type="text"
                 placeholder="Add Event Title"
-                id="eventPassword"
-                aria-describedby="passwordHelpBlock"
+                id="eventTitle"
+                aria-describedby="eventTitle"
                 {...register('title')}
               />
             </BsCol>
