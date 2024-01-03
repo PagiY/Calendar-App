@@ -1,18 +1,18 @@
 import { create } from 'zustand';
 
 export type EventState = {
-  eventStartDate: Date | string,
-  eventEndDate: Date | string,
+  startDate: Date | string,
+  endDate: Date | string,
 };
 
 type EventAction = {
-  updateEventStartDate: (eventStartDate: EventState['eventStartDate']) => void,
-  updateEventEndDate: (eventEndDate: EventState['eventEndDate']) => void,
+  updateStartDate: (startDate: EventState['startDate']) => void,
+  updateEndDate: (endDate: EventState['endDate']) => void,
 };
 
 export const useEventDateStore = create<EventState & EventAction>((set) => ({
-  eventStartDate: '',
-  eventEndDate: '',
-  updateEventStartDate: (eventStartDate) => set(() => ({ eventStartDate })),
-  updateEventEndDate: (eventEndDate) => set(() => ({ eventEndDate })),
+  startDate: '',
+  endDate: '',
+  updateStartDate: (startDate) => set(() => ({ startDate })),
+  updateEndDate: (endDate) => set(() => ({ endDate })),
 }));

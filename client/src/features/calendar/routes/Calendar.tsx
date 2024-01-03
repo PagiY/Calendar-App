@@ -14,8 +14,8 @@ import { useEventDateStore } from '../../../hooks/useEventDateStore';
 export const Calendar = () => {
   const [show, setShow] = useState(false);
 
-  const updateStartDate = useEventDateStore((state) => state.updateEventStartDate);
-  const updateEndDate = useEventDateStore((state) => state.updateEventEndDate);
+  const updateStartDate = useEventDateStore((state) => state.updateStartDate);
+  const updateEndDate = useEventDateStore((state) => state.updateEndDate);
 
   const handleClose = () => {
     setShow(false);
