@@ -12,32 +12,30 @@ import { useMutation } from '@tanstack/react-query';
 
 import DateTimePicker from 'react-datetime-picker';
 
-import { useEventDateStore } from '../../../../hooks/useEventDateStore';
+import { useEventDateStore } from '../../hooks/useEventDateStore';
+import { useEventsData } from '../../hooks/useEventsData';
+
 import { createEvent as createEventAPI } from '../../api/createEvent';
 import { EventData } from '../../types';
 
 type ModalProps = {
   show: boolean,
   handleClose: () => void,
-  // handleSubmit: (data: any) => void,
 };
-
-// interface EventInputs extends EventState {
-//   title: string,
-//   allDay: boolean,
-//   description?: string,
-//   eventTitle: string,
-// }
 
 export const Modal = ({
   show,
   handleClose,
 }: ModalProps) => {
-  const eventStartDate = useEventDateStore((state) => state.startDate);
-  const eventEndDate = useEventDateStore((state) => state.endDate);
+  const { events, setEvents } = useEventsData();
+  const eventStartDate = useEventDateStore((state) => state.start);
+  const eventEndDate = useEventDateStore((state) => state.end);
   const createEvent = useMutation({
     mutationKey: ['create', 'event'],
     mutationFn: (event: EventData) => createEventAPI(event),
+    onSuccess: (data) => {
+      setEvents(() => [...events, data.data]);
+    },
   });
 
   const {
@@ -45,8 +43,8 @@ export const Modal = ({
   } = useForm<EventData>({
     defaultValues: {
       title: '',
-      startDate: eventStartDate,
-      endDate: eventEndDate,
+      start: eventStartDate,
+      end: eventEndDate,
       allDay: false,
       description: '',
     },
@@ -56,13 +54,19 @@ export const Modal = ({
   // dynamically changing
   useEffect(() => {
     reset({
-      startDate: eventStartDate,
-      endDate: eventEndDate,
+      title: '',
+      description: '',
+      allDay: false,
+      start: eventStartDate,
+      end: eventEndDate,
     });
   }, [eventEndDate, eventStartDate]);
 
   const onSubmit = handleSubmit((data) => {
     createEvent.mutate(data);
+    // if (createEvent.isSuccess) {
+    //   setEvents(() => [...events, data]);
+    // }
     handleClose();
   });
 
@@ -95,7 +99,7 @@ export const Modal = ({
             <BsCol>
               <Controller
                 control={control}
-                name="startDate"
+                name="start"
                 render={({ field }) => (
                   <DateTimePicker
                     value={field.value}
@@ -112,7 +116,7 @@ export const Modal = ({
             <BsCol>
               <Controller
                 control={control}
-                name="endDate"
+                name="end"
                 render={({ field }) => (
                   <DateTimePicker
                     value={field.value}

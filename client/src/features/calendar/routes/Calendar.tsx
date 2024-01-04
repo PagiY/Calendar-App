@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import FullCalendar from '@fullcalendar/react';
 import { DateSelectArg, EventClickArg } from '@fullcalendar/core';
@@ -9,13 +9,22 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 
 import { Modal } from '../components/Modal/Modal';
 
-import { useEventDateStore } from '../../../hooks/useEventDateStore';
+import { useEventDateStore } from '../hooks/useEventDateStore';
+import { useGetEvents } from '../hooks/useGetEvents';
+import { useEventsData } from '../hooks/useEventsData';
 
 export const Calendar = () => {
   const [show, setShow] = useState(false);
+  const { events, setEvents } = useEventsData();
+  const getEvents = useGetEvents('month');
 
-  const updateStartDate = useEventDateStore((state) => state.updateStartDate);
-  const updateEndDate = useEventDateStore((state) => state.updateEndDate);
+  // initialize events
+  useEffect(() => {
+    setEvents(getEvents.data);
+  }, [getEvents]);
+
+  const updatestartTime = useEventDateStore((state) => state.updateStartDate);
+  const updateendTime = useEventDateStore((state) => state.updateEndDate);
 
   const handleClose = () => {
     setShow(false);
@@ -27,8 +36,8 @@ export const Calendar = () => {
 
   // triggers when a duration is selected
   const handleSelect = (value: DateSelectArg) => {
-    updateStartDate(value.start);
-    updateEndDate(value.end);
+    updatestartTime(value.start);
+    updateendTime(value.end);
     setShow(true);
   };
 
@@ -50,16 +59,7 @@ export const Calendar = () => {
         editable
         selectable
         select={handleSelect}
-        events={[
-          { // this object will be "parsed" into an Event Object
-            title: 'The Title', // a property!
-            start: '2023-12-01T12:30:00', // a property!
-            end: '2023-12-01T12:45:00', // a property! ** see important note below about 'end' **
-            startTime: '2023-12-01T12:30:00',
-            endTime: '2023-12-01T12:45:00',
-            allDay: false,
-          },
-        ]}
+        events={events}
         eventClick={handleEventClick}
         headerToolbar={{
           left: 'prev,next today',

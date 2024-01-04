@@ -1,4 +1,4 @@
-import { EventState } from '../../../hooks/useEventDateStore';
+import { EventState } from '../hooks/useEventDateStore';
 
 export interface EventData extends EventState {
   title: string,
