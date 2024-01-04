@@ -14,8 +14,8 @@ POST http://localhost:3000/event
 Content-Type: application/json
 
 {
-  "endDate": "2023-11-29T16:00:00.000Z",
-  "startDate": "2023-11-28T16:00:00.000Z",
+  "end": "2023-11-29T16:00:00.000Z",
+  "start": "2023-11-28T16:00:00.000Z",
   "title": "Test",
   "allDay": false,
   "description": ""

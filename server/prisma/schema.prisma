@@ -15,8 +15,8 @@ model Event {
   title       String   @db.VarChar(255)
   description String   @db.Text()
   allDay      Boolean
-  startDate   DateTime
-  endDate     DateTime
+  start   DateTime
+  end     DateTime
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
