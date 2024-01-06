@@ -6,37 +6,31 @@ import BsRow from 'react-bootstrap/Row';
 import BsCol from 'react-bootstrap/Col';
 import BsButton from 'react-bootstrap/Button';
 
+import { AxiosResponse } from 'axios';
+
 import { Controller, useForm } from 'react-hook-form';
 
-import { useMutation } from '@tanstack/react-query';
+import { UseMutationResult } from '@tanstack/react-query';
 
 import DateTimePicker from 'react-datetime-picker';
 
 import { useEventDateStore } from '../../hooks/useEventDateStore';
-import { useEventsData } from '../../hooks/useEventsData';
 
-import { createEvent as createEventAPI } from '../../api/createEvent';
 import { EventData } from '../../types';
 
 type ModalProps = {
   show: boolean,
   handleClose: () => void,
+  createEvent: UseMutationResult<AxiosResponse<any, any>, Error, EventData, unknown>
 };
 
 export const Modal = ({
   show,
   handleClose,
+  createEvent,
 }: ModalProps) => {
-  const { events, setEvents } = useEventsData();
   const eventStartDate = useEventDateStore((state) => state.start);
   const eventEndDate = useEventDateStore((state) => state.end);
-  const createEvent = useMutation({
-    mutationKey: ['create', 'event'],
-    mutationFn: (event: EventData) => createEventAPI(event),
-    onSuccess: (data) => {
-      setEvents(() => [...events, data.data]);
-    },
-  });
 
   const {
     control, handleSubmit, register, reset,
@@ -64,9 +58,6 @@ export const Modal = ({
 
   const onSubmit = handleSubmit((data) => {
     createEvent.mutate(data);
-    // if (createEvent.isSuccess) {
-    //   setEvents(() => [...events, data]);
-    // }
     handleClose();
   });
 
