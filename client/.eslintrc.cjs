@@ -4,10 +4,16 @@ module.exports = {
     es2021: true,
   },
   extends: [
-    'plugin:react/recommended',
+    // 'plugin:react/recommended',
     'airbnb',
     'airbnb-typescript',
+    // 'airbnb/hooks',
+    // 'plugin:react/jsx-runtime',
+    // 'plugin:@typescript-eslint/recommended',
+    // 'plugin:react-hooks/recommended',
+    // 'plugin:@tanstack/eslint-plugin-query/recommended',
   ],
+  ignorePatterns: ['dist', '.eslintrc.cjs', 'vite.config.ts'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     // ecmaFeatures: {
@@ -15,7 +21,8 @@ module.exports = {
     // },
     ecmaVersion: 'latest',
     sourceType: 'module',
-    project: './client/tsconfig.json',
+    project: './tsconfig.json',
+    tsconfigRootDir: __dirname,
   },
   plugins: [
     'react',
@@ -32,6 +39,16 @@ module.exports = {
     ],
     'import/prefer-default-export': [
       'off',
+    ],
+    'import/extensions': ['error',
+      'ignorePackages',
+      {
+        '': 'never',
+        js: 'never',
+        jsx: 'never',
+        ts: 'never',
+        tsx: 'never',
+      },
     ],
   },
 };
