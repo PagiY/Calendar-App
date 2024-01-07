@@ -8,6 +8,7 @@ import interactionPlugin from '@fullcalendar/interaction'; // needed for dayClic
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { useMutation } from '@tanstack/react-query';
 
+import { EventDef } from '@fullcalendar/core/internal';
 import { Modal } from '../components/Modal/Modal';
 
 import { useEventDateStore } from '../hooks/useEventDateStore';
@@ -16,9 +17,12 @@ import { useEventsData } from '../hooks/useEventsData';
 
 import { createEvent as createEventAPI } from '../api/createEvent';
 import { EventData } from '../types';
+import { ViewEventModal } from '../components/ViewEventModal/ViewEventModal';
 
 export const Calendar = () => {
   const [show, setShow] = useState(false);
+  const [showEvent, setShowEvent] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState<null | EventDef>(null);
 
   const { events, setEvents } = useEventsData();
   // initialize events for the current month
@@ -40,12 +44,10 @@ export const Calendar = () => {
     },
   });
 
-  const handleClose = () => {
-    setShow(false);
-  };
-
   const handleEventClick = (value: EventClickArg) => {
-    console.log(value);
+    // eslint-disable-next-line no-underscore-dangle
+    setSelectedEvent(value.event._def);
+    setShowEvent(true);
   };
 
   // triggers when a duration is selected
@@ -59,8 +61,13 @@ export const Calendar = () => {
     <>
       <Modal
         show={show}
-        handleClose={handleClose}
+        handleClose={() => setShow(false)}
         createEvent={createEvent}
+      />
+      <ViewEventModal
+        show={showEvent}
+        handleClose={() => setShowEvent(false)}
+        event={selectedEvent}
       />
       <FullCalendar
         plugins={[dayGridPLugin, interactionPlugin, timeGridPlugin]}

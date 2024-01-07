@@ -1,7 +1,8 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { useEffect } from 'react';
 
-import BsModal from 'react-bootstrap/Modal'; import BsForm from 'react-bootstrap/Form';
+import BsModal from 'react-bootstrap/Modal';
+import BsForm from 'react-bootstrap/Form';
 import BsRow from 'react-bootstrap/Row';
 import BsCol from 'react-bootstrap/Col';
 import BsButton from 'react-bootstrap/Button';
