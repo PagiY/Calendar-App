@@ -6,5 +6,5 @@ General Requirements: <br>
 5. Invite other users to an event
 
 - [ ] Prototype the calendar app
-- [ ] 
+
       
